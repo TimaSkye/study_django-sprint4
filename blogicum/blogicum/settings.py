@@ -29,7 +29,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',  # Установка Django Debug Toolbar.
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # Установка Django Debug Toolbar.
 ]
 
 INTERNAL_IPS = [
@@ -91,7 +92,10 @@ USE_TZ = True
 STATIC_URL = 'static_dev/'  # Перенос статических файлов на уровень проекта.
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static_dev/',  # Указание Django где искать статические файлы проекта.
+    BASE_DIR / 'static_dev/',
+    # Указание Django где искать статические файлы проекта.
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
