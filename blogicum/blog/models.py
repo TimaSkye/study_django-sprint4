@@ -34,7 +34,7 @@ class Category(PublishBaseModel):
         unique=True,
         verbose_name='Идентификатор',
         help_text='Идентификатор страницы для URL; '
-        'разрешены символы латиницы, цифры, дефис и подчёркивание.',
+                  'разрешены символы латиницы, цифры, дефис и подчёркивание.',
     )
 
     class Meta:
@@ -68,7 +68,7 @@ class Post(PublishBaseModel):
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
         help_text='Если установить дату и время в будущем — '
-        'можно делать отложенные публикации.',
+                  'можно делать отложенные публикации.',
     )
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name='Автор публикации'
@@ -84,6 +84,8 @@ class Post(PublishBaseModel):
         Category, on_delete=models.SET_NULL, null=True,
         verbose_name='Категория'
     )
+    image = models.ImageField('Фото', upload_to='posts_images',
+                              blank=True)
 
     objects = models.Manager()
     published = PublishedPostManager()

@@ -41,6 +41,7 @@ class PostAdmin(admin.ModelAdmin):
         'author',
         'location',
         'category',
+        'image',
         'is_published',
         'created_at',
     )
@@ -50,6 +51,7 @@ class PostAdmin(admin.ModelAdmin):
         'author',
         'location',
         'category',
+        'image',
         'is_published',
     )
     search_fields = (
