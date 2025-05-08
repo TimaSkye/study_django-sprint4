@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 
 from blog.constants import POSTS_ON_PAGE
-from blog.models import Post, Category
+from blog.forms import UserEditForm
+from blog.models import Post, Category, User
 
 
 def index(request):
@@ -37,5 +39,25 @@ def create_post():
     return None
 
 
-def profile():
-    return None
+def profile(request, username):
+    profile = get_object_or_404(User, username=username)
+    posts = profile.posts.all().order_by('-created_at')
+
+    context = {
+        'profile': profile,
+        'posts': posts,
+    }
+    return render(request, 'blog/profile.html', context)
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:profile', username=request.user.username)
+    else:
+        form = UserEditForm(instance=request.user)
+    return render(request, 'blog/user.html',
+                  {'form': form})
