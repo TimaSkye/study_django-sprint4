@@ -31,3 +31,11 @@ def category_posts(request, category_slug: str):
             'category_posts': posts,
         },
     )
+
+
+def create_post():
+    return None
+
+
+def profile():
+    return None

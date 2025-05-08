@@ -11,4 +11,6 @@ urlpatterns = [
         views.category_posts,
         name='category_posts'
     ),
+    path('create_post/', views.create_post, name='create_post'),
+    path('profile/<str:username>/', views.profile, name='profile')
 ]

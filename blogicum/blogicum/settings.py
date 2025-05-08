@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',  # Подключение приложения Blog.
     'pages.apps.PagesConfig',  # Подключение приложения Pages.
     'core.apps.CoreConfig',  # Подключение приложения Core.
+    'django_bootstrap5',  # Подключение Bootstrap.
     'debug_toolbar',  # Установка Django Debug Toolbar.
 ]
 
@@ -101,4 +102,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
 
 LOGIN_REDIRECT_URL = '/profile/'
-LOGOUT_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
