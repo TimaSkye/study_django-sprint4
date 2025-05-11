@@ -98,3 +98,18 @@ class Post(PublishBaseModel):
 
     def __str__(self):
         return truncate_text(self.title)
+
+
+class Comment(models.Model):
+    """Модель комментариев к постам."""
+    text = models.TextField(max_length=FIELD_MAX_LENGTH,
+                            verbose_name='Текст поздравления')
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ('-created_at',)
+        default_related_name = 'comment'

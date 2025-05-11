@@ -1,16 +1,6 @@
 from django.shortcuts import render
 
 
-def about(request):
-    """Фунцкия рендера страницы о проекте."""
-    return render(request, 'pages/about.html')
-
-
-def rules(request):
-    """Фунцкия рендера страницы правил."""
-    return render(request, 'pages/rules.html')
-
-
 def page_not_found(request, exception):
     """Функция рендера кастомной страницы ошибки 404."""
     return render(request, 'pages/404.html', status=404)

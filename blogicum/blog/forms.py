@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import User, Post
+from .models import User, Post, Comment
 
 
 class UserForm(forms.ModelForm):
@@ -21,3 +21,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'text', 'location', 'category', 'image',
                   'pub_date']
+
+
+class CommentForm(forms.ModelForm):
+    """Форма для работы с комментариями."""
+
+    class Meta:
+        model = Comment
+        fields = ['text']

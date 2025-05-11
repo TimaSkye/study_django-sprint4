@@ -3,7 +3,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, \
+    DeleteView
 
 from blog.forms import PostForm, UserForm
 from blog.models import Post, Category, User
@@ -74,14 +75,14 @@ class CategoryPostsView(ListView):
 class PostDetailView(DetailView):
     """CBV поста."""
     model = Post
-    template_name = 'includes/post_card.html'
+    template_name = 'blog/detail.html'
     pk_url_kwarg = 'post_id'
 
 
 class PostListView(ListView):
-    """СBV списка постов."""
+    """CBV списка постов."""
     model = Post
-    template_name = 'blog/index.html'
+    template_name = 'blog/detail.html'
     context_object_name = 'posts'
     paginate_by = 10
     ordering = ['-pub_date']
@@ -99,3 +100,15 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         """метод назначения авторства."""
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class PostEditView(LoginRequiredMixin, UpdateView):
+    pass
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    pass
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    pass
