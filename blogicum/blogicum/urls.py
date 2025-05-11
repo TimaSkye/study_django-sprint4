@@ -7,8 +7,8 @@ from django.views.generic import CreateView
 
 from blogicum import views
 
-handler404 = 'core.views.page_not_found'
-handler500 = 'core.views.internal_server_error'
+handler404 = 'pages.views.page_not_found'
+handler500 = 'pages.views.internal_server_error'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
