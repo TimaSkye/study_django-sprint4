@@ -8,6 +8,7 @@ from django.views.generic import (
     CreateView, DetailView, ListView, UpdateView, DeleteView, TemplateView
 )
 
+from .constants import PAGINATE_COUNT
 from .forms import ProfileForm, CommentForm, PostCreateForm
 from .mixins import OnlyAuthorMixin, CommentMixin
 from .models import Post, Category, User, Comment
@@ -19,7 +20,7 @@ class IndexView(ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'posts'
-    paginate_by = 10
+    paginate_by = PAGINATE_COUNT
     ordering = ['-pub_date']
 
     def get_queryset(self):
@@ -29,7 +30,7 @@ class IndexView(ListView):
 class ProfileView(TemplateView):
     """CBV Профиля пользователя."""
     template_name = 'blog/profile.html'
-    paginate_by = 10
+    paginate_by = PAGINATE_COUNT
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,7 +67,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
 
 class PostView(DetailView):
-    """CBV поста."""
+    """CBV детального отображения поста."""
     model = Post
     template_name = 'blog/detail.html'
     pk_url_kwarg = 'post_id'
@@ -100,7 +101,7 @@ class CategoryPostsView(ListView):
     model = Post
     template_name = 'blog/category.html'
     context_object_name = 'category_posts'
-    paginate_by = 10
+    paginate_by = PAGINATE_COUNT
 
     def get_queryset(self):
         category_slug = self.kwargs.get('category_slug')
@@ -123,7 +124,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('blog:index')
 
     def form_valid(self, form):
-        """Метод назначения авторства."""
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -133,6 +133,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 
 class PostEditView(OnlyAuthorMixin, UpdateView):
+    """CBV редактирования поста."""
     model = Post
     form_class = PostCreateForm
     template_name = 'blog/create.html'
@@ -151,7 +152,8 @@ class PostEditView(OnlyAuthorMixin, UpdateView):
         )
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
+    """CBV удаления поста."""
     model = Post
     template_name = 'blog/create.html'
     success_url = reverse_lazy('blog:index')
@@ -160,14 +162,20 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return super().get_queryset().filter(author=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class AddCommentView(LoginRequiredMixin, CreateView):
+    """CBV добавления комментария."""
     model = Comment
     form_class = CommentForm
 
     def get_success_url(self):
         post_id = self.kwargs.get('post_id')
-        return reverse('blog:post_detail', kwargs={'post_id': post_id})
+        return reverse('blog:post_detail',
+                       kwargs={'post_id': post_id})
 
     def form_valid(self, form):
         post_id = self.kwargs.get('post_id')
@@ -178,6 +186,7 @@ class AddCommentView(LoginRequiredMixin, CreateView):
 
 
 class EditCommentView(CommentMixin, UpdateView):
+    """CBV редактирования комментария."""
     form_class = CommentForm
     success_url = reverse_lazy('blog:index')
 
@@ -191,7 +200,8 @@ class EditCommentView(CommentMixin, UpdateView):
         return context
 
 
-class CommentDeleteView(LoginRequiredMixin, DeleteView):
+class CommentDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
+    """CBV удаления комментария."""
     model = Comment
     template_name = 'blog/comment.html'
     success_url = reverse_lazy('blog:index')

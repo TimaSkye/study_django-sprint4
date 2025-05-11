@@ -5,6 +5,8 @@ from .models import Comment
 
 
 class OnlyAuthorMixin(UserPassesTestMixin):
+    """Миксин проверка авторства."""
+
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
@@ -15,5 +17,6 @@ class OnlyAuthorMixin(UserPassesTestMixin):
 
 
 class CommentMixin(LoginRequiredMixin, OnlyAuthorMixin):
+    """Миксин комментариев."""
     model = Comment
     template_name = 'blog/comment.html'

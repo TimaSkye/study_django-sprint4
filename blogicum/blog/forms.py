@@ -4,6 +4,8 @@ from .models import Post, User, Comment
 
 
 class PostCreateForm(ModelForm):
+    """Форма поста."""
+
     class Meta:
         model = Post
         fields = ['is_published', 'title', 'text', 'pub_date', 'location',
@@ -14,12 +16,16 @@ class PostCreateForm(ModelForm):
 
 
 class ProfileForm(ModelForm):
+    """Форма профиля."""
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
 
 
 class CommentForm(ModelForm):
+    """Форма комментария."""
+
     class Meta:
         model = Comment
         fields = ['text']

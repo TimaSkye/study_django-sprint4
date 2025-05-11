@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from blog.models import Category, Location, Post
 
 admin.site.empty_value_display = 'Не задано'
-admin.site.unregister(Group)
+admin.site.unregister(Group)  # Убираем 'Группы из админ-панели.'
 
 
 @admin.register(Category)

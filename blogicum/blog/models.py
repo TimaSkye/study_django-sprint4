@@ -105,6 +105,7 @@ class Post(PublishBaseModel):
 
 
 class Comment(models.Model):
+    """Модель комментариев."""
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
@@ -126,7 +127,8 @@ class Comment(models.Model):
         return f'Комментарий {self.author} к посту {self.post}'
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', kwargs={'pk': self.post.pk})
+        return reverse('blog:post_detail',
+                       kwargs={'pk': self.post.pk})
 
     class Meta:
         verbose_name = 'комментарий'
