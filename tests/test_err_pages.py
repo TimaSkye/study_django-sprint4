@@ -90,7 +90,7 @@ def test_custom_err_handlers(client, user_client):
     )
 
     try:
-        from core import views as pages_views
+        from pages import views as pages_views
     except Exception:
         raise AssertionError(
             "Убедитесь, что в файле `pages/views.py` нет ошибок."
