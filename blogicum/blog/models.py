@@ -106,7 +106,7 @@ class Post(PublishBaseModel):
 
 class Comment(models.Model):
     """Модель комментариев."""
-    
+
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,

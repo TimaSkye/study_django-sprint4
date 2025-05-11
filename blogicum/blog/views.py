@@ -212,7 +212,7 @@ class EditCommentView(CommentMixin, UpdateView):
 
 class CommentDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
     """CBV удаления комментария."""
-    
+
     model = Comment
     template_name = 'blog/comment.html'
     success_url = reverse_lazy('blog:index')
