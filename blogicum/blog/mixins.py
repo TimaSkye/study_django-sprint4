@@ -18,5 +18,6 @@ class OnlyAuthorMixin(UserPassesTestMixin):
 
 class CommentMixin(LoginRequiredMixin, OnlyAuthorMixin):
     """Миксин комментариев."""
+    
     model = Comment
     template_name = 'blog/comment.html'

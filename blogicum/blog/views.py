@@ -17,6 +17,7 @@ from .utils import get_filter_query
 
 class IndexView(ListView):
     """CBV списка постов."""
+
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'posts'
@@ -29,6 +30,7 @@ class IndexView(ListView):
 
 class ProfileView(TemplateView):
     """CBV Профиля пользователя."""
+
     template_name = 'blog/profile.html'
     paginate_by = PAGINATE_COUNT
 
@@ -54,6 +56,7 @@ class ProfileView(TemplateView):
 
 class EditProfileView(LoginRequiredMixin, UpdateView):
     """CBV редактирования профиля пользователя."""
+
     model = User
     form_class = ProfileForm
     template_name = 'blog/user.html'
@@ -68,6 +71,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
 class PostView(DetailView):
     """CBV детального отображения поста."""
+
     model = Post
     template_name = 'blog/detail.html'
     pk_url_kwarg = 'post_id'
@@ -98,6 +102,7 @@ class PostView(DetailView):
 
 class CategoryPostsView(ListView):
     """CBV категорий постов."""
+
     model = Post
     template_name = 'blog/category.html'
     context_object_name = 'category_posts'
@@ -118,6 +123,7 @@ class CategoryPostsView(ListView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     """CBV создание поста."""
+
     model = Post
     form_class = PostCreateForm
     template_name = 'blog/create.html'
@@ -134,6 +140,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostEditView(OnlyAuthorMixin, UpdateView):
     """CBV редактирования поста."""
+
     model = Post
     form_class = PostCreateForm
     template_name = 'blog/create.html'
@@ -154,6 +161,7 @@ class PostEditView(OnlyAuthorMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
     """CBV удаления поста."""
+
     model = Post
     template_name = 'blog/create.html'
     success_url = reverse_lazy('blog:index')
@@ -169,6 +177,7 @@ class PostDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
 
 class AddCommentView(LoginRequiredMixin, CreateView):
     """CBV добавления комментария."""
+
     model = Comment
     form_class = CommentForm
 
@@ -187,6 +196,7 @@ class AddCommentView(LoginRequiredMixin, CreateView):
 
 class EditCommentView(CommentMixin, UpdateView):
     """CBV редактирования комментария."""
+
     form_class = CommentForm
     success_url = reverse_lazy('blog:index')
 
@@ -202,6 +212,7 @@ class EditCommentView(CommentMixin, UpdateView):
 
 class CommentDeleteView(LoginRequiredMixin, OnlyAuthorMixin, DeleteView):
     """CBV удаления комментария."""
+    
     model = Comment
     template_name = 'blog/comment.html'
     success_url = reverse_lazy('blog:index')
