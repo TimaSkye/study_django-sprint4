@@ -1,6 +1,4 @@
-from django.core.mail import send_mail
 from django.db.models import Count
-from django.http import HttpResponse
 from django.utils import timezone
 
 from .constants import TRUNCATE_LENGTH
@@ -25,14 +23,3 @@ def get_filter_query(queryset, **kwargs):
 
     return queryset.filter(**filters).annotate(
         comment_count=Count('comments'))
-
-
-def send_test_email(request):
-    subject = 'Восстановление пароля'
-    message = 'Направляем тестовое сообщение для восстановления пароля'
-    from_email = 'test@example.com'
-    recipient_list = ['recipient@example.com']
-
-    send_mail(subject, message, from_email, recipient_list)
-
-    return HttpResponse('Test email sent.')

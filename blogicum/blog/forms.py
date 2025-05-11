@@ -29,7 +29,3 @@ class CommentForm(ModelForm):
         labels = {
             'text': 'Ваш комментарий',
         }
-
-
-class EditCommentForm(CommentForm):
-    pass
