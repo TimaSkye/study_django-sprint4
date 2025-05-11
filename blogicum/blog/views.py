@@ -65,8 +65,8 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return reverse_lazy('blog:profile',
-                            kwargs={'username': self.request.user.username})
+        return reverse('blog:profile',
+                       kwargs={'username': self.request.user.username})
 
 
 class PostView(DetailView):
@@ -154,8 +154,9 @@ class PostEditView(OnlyAuthorMixin, UpdateView):
         return None
 
     def get_success_url(self):
-        return reverse_lazy(
-            'blog:post_detail', kwargs={'post_id': self.kwargs['post_id']}
+        return reverse(
+            'blog:post_detail',
+            kwargs={'post_id': self.kwargs['post_id']}
         )
 
 
