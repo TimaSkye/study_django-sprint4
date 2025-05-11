@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 from core.models import PublishBaseModel
@@ -90,6 +91,9 @@ class Post(PublishBaseModel):
     objects = models.Manager()
     published = PublishedPostManager()
 
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk': self.pk})
+
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
@@ -101,15 +105,31 @@ class Post(PublishBaseModel):
 
 
 class Comment(models.Model):
-    """Модель комментариев к постам."""
-    text = models.TextField(max_length=FIELD_MAX_LENGTH,
-                            verbose_name='Текст поздравления')
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Пост',
+        null=True,
+        blank=True
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор комментария'
+    )
+    text = models.TextField(verbose_name='Текст комментария')
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name='Дата создания')
+
+    def __str__(self):
+        return f'Комментарий {self.author} к посту {self.post}'
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', kwargs={'pk': self.post.pk})
 
     class Meta:
-        verbose_name = 'Комментарий'
+        verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
-        ordering = ('-created_at',)
-        default_related_name = 'comment'
+        ordering = (
+            'created_at',)
